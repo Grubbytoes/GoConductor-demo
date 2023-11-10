@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0bjn5etbwo15"]
+
+[ext_resource type="Script" path="res://GoConductor/Scripts/Conductor.gd" id="1_hlkjx"]
+
+[node name="GCConductor" type="Node"]
+script = ExtResource("1_hlkjx")
+
+[node name="metronome" type="Timer" parent="."]
+
+[node name="stopwatch" type="Timer" parent="."]
+
+[connection signal="timeout" from="metronome" to="." method="_on_metronome_timeout"]
