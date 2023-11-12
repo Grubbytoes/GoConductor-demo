@@ -14,12 +14,12 @@ func _on_acompanyment_1_body_exited(body):
 
 
 func _on_acompanyment_2_body_entered(body):
-	print("Play thoes drums!!")
+	print("Play those drums!!")
 	conductor.cue_track("drumAc")
 
 
 func _on_acompanyment_2_body_exited(body):
-	print("Stop thoes drums!!")
+	print("Stop those drums!!")
 	conductor.cue_stop_track("drumAc")
 
 

@@ -7,14 +7,13 @@ enum Cmd {START, STOP}
 @export var lead_track: GCTrack
 
 @onready var metronome = $metronome
-@onready var stopwatch = $stopwatch
 
 var beatno = 0
 var command_queue = []
 # Used if any track is playing, so we can know whether or not to count up time
 var playing = false 
 # Keeps track of currently playing time
-var play_time: float = 0.0
+var play_head: float = 0.0
 # A list of all tracks currently playing
 var tracks_playing = []
 
@@ -31,7 +30,7 @@ func start():
 	
 	# Play any tracks that were playing already
 	for track in tracks_playing:
-		track.play(play_time)
+		track.play(play_head)
 
 
 # Pauses all tracks
@@ -45,7 +44,7 @@ func pause():
 func stop():
 	# This acts the same as a pause, except we reset time to 0!
 	# ... I think
-	play_time = 0.0
+	play_head = 0.0
 	pause()
 
 
@@ -72,7 +71,7 @@ func play_track(track_name):
 	if track.current_bus != bus:
 		track.set_bus(bus)
 	
-	track.play(play_time)
+	track.play(play_head)
 
 
 func stop_track(track_name):
@@ -103,6 +102,6 @@ func _on_metronome_timeout():
 
 func _process(delta):
 	if playing:
-		play_time += delta
+		play_head += delta
 		_poll_queue()
 
