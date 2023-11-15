@@ -11,7 +11,7 @@ enum Cmd {START, STOP}
 var beatno = 0
 var command_queue = []
 # Used if any track is playing, so we can know whether or not to count up time
-var playing = false 
+var is_playing = false 
 # Keeps track of currently playing time
 var play_head: float = 0.0
 # A list of all tracks currently playing
@@ -22,7 +22,7 @@ func start():
 	# to keep things nicely in time
 	metronome.wait_time = 60/bpm
 	metronome.start()
-	playing = true
+	is_playing = true
 	
 	# Poll the queue for any commands that have been put in place
 	print(command_queue)
@@ -35,7 +35,7 @@ func start():
 
 # Pauses all tracks
 func pause():
-	playing = false
+	is_playing = false
 	for track in tracks_playing:
 		track.stop()
 
@@ -81,6 +81,9 @@ func stop_track(track_name):
 
 
 func _poll_queue():
+	if command_queue.is_empty():
+		return
+	
 	var cmd
 	var target
 	var buffer
@@ -101,7 +104,7 @@ func _on_metronome_timeout():
 
 
 func _process(delta):
-	if playing:
+	if is_playing:
 		play_head += delta
 		_poll_queue()
 
